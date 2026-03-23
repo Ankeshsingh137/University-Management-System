@@ -1,200 +1,224 @@
-
 package universitymanagementsystem;
-
-
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.*;
+import javax.swing.border.*;
 
-public class AddTeacher extends JFrame implements ActionListener{
+public class AddTeacher extends JFrame implements ActionListener {
     
     JTextField tfname, tffname, tfaddress, tfphone, tfemail, tfx, tfxii, tfaadhar;
     JLabel labelempId;
     JDateChooser dcdob;
     JComboBox cbcourse, cbbranch;
     JButton submit, cancel;
+    JPanel mainPanel;
     
     Random ran = new Random();
     long first4 = Math.abs((ran.nextLong() % 9000L) + 1000L);
     
     AddTeacher() {
-        
-        setSize(900, 700);
-        setLocation(350, 50);
-        
+        setSize(900, 750);
+        setLocationRelativeTo(null);
+        setUndecorated(true); // Modern Borderless Look
+        setBackground(new Color(0, 0, 0, 0)); // Transparent background for rounded corners
         setLayout(null);
         
-        JLabel heading = new JLabel("New Teacher Details");
-        heading.setBounds(310, 30, 500, 50);
-        heading.setFont(new Font("serif", Font.BOLD, 30));
-        add(heading);
+        // --- 1. MAIN ROUNDED PANEL ---
+        mainPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(Color.WHITE);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 40, 40);
+            }
+        };
+        mainPanel.setLayout(null);
+        mainPanel.setBounds(0, 800, 900, 750); // Start position for animation
+        add(mainPanel);
+
+        // --- 2. GRADIENT HEADER ---
+        JPanel header = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                GradientPaint gd = new GradientPaint(0, 0, new Color(41, 128, 185), getWidth(), 0, new Color(109, 213, 250));
+                g2.setPaint(gd);
+                g2.fillRoundRect(0, 0, getWidth(), 100, 40, 40);
+                g2.fillRect(0, 60, getWidth(), 40);
+            }
+        };
+        header.setBounds(0, 0, 900, 100);
+        header.setLayout(null);
+        mainPanel.add(header);
+
+        JLabel heading = new JLabel("FACULTY ENROLLMENT SYSTEM");
+        heading.setBounds(0, 35, 900, 40);
+        heading.setHorizontalAlignment(SwingConstants.CENTER);
+        heading.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        heading.setForeground(Color.WHITE);
+        header.add(heading);
         
-        JLabel lblname = new JLabel("Name");
-        lblname.setBounds(50, 150, 100, 30);
-        lblname.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblname);
-        
-        tfname = new JTextField();
-        tfname.setBounds(200, 150, 150, 30);
-        add(tfname);
-        
-        JLabel lblfname = new JLabel("Father's Name");
-        lblfname.setBounds(400, 150, 200, 30);
-        lblfname.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblfname);
-        
-        tffname = new JTextField();
-        tffname.setBounds(600, 150, 150, 30);
-        add(tffname);
-        
-        JLabel lblempId = new JLabel("Employee Id");
-        lblempId.setBounds(50, 200, 200, 30);
-        lblempId.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblempId);
-        
-        labelempId = new JLabel("101"+first4);
-        labelempId.setBounds(200, 200, 200, 30);
-        labelempId.setFont(new Font("serif", Font.BOLD, 20));
-        add(labelempId);
-        
-        JLabel lbldob = new JLabel("Date of Birth");
-        lbldob.setBounds(400, 200, 200, 30);
-        lbldob.setFont(new Font("serif", Font.BOLD, 20));
-        add(lbldob);
-        
-        dcdob = new JDateChooser();
-        dcdob.setBounds(600, 200, 150, 30);
-        add(dcdob);
-        
-        JLabel lbladdress = new JLabel("Address");
-        lbladdress.setBounds(50, 250, 200, 30);
-        lbladdress.setFont(new Font("serif", Font.BOLD, 20));
-        add(lbladdress);
-        
-        tfaddress = new JTextField();
-        tfaddress.setBounds(200, 250, 150, 30);
-        add(tfaddress);
-        
-        JLabel lblphone = new JLabel("Phone");
-        lblphone.setBounds(400, 250, 200, 30);
-        lblphone.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblphone);
-        
-        tfphone = new JTextField();
-        tfphone.setBounds(600, 250, 150, 30);
-        add(tfphone);
-        
-        JLabel lblemail = new JLabel("Email Id");
-        lblemail.setBounds(50, 300, 200, 30);
-        lblemail.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblemail);
-        
-        tfemail = new JTextField();
-        tfemail.setBounds(200, 300, 150, 30);
-        add(tfemail);
-        
-        JLabel lblx = new JLabel("Class X (%)");
-        lblx.setBounds(400, 300, 200, 30);
-        lblx.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblx);
-        
-        tfx = new JTextField();
-        tfx.setBounds(600, 300, 150, 30);
-        add(tfx);
-        
-        JLabel lblxii = new JLabel("Class XII (%)");
-        lblxii.setBounds(50, 350, 200, 30);
-        lblxii.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblxii);
-        
-        tfxii = new JTextField();
-        tfxii.setBounds(200, 350, 150, 30);
-        add(tfxii);
-        
-        JLabel lblaadhar = new JLabel("Aadhar Number");
-        lblaadhar.setBounds(400, 350, 200, 30);
-        lblaadhar.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblaadhar);
-        
-        tfaadhar = new JTextField();
-        tfaadhar.setBounds(600, 350, 150, 30);
-        add(tfaadhar);
-        
-        JLabel lblcourse = new JLabel("Qualification");
-        lblcourse.setBounds(50, 400, 200, 30);
-        lblcourse.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblcourse);
-        
-        String course[] = {"B.Tech", "BBA", "BCA", "Bsc", "Msc", "MBA", "MCA", "MCom", "MA", "BA"};
-        cbcourse = new JComboBox(course);
-        cbcourse.setBounds(200, 400, 150, 30);
-        cbcourse.setBackground(Color.WHITE);
-        add(cbcourse);
-        
-        JLabel lblbranch = new JLabel("Department");
-        lblbranch.setBounds(400, 400, 200, 30);
-        lblbranch.setFont(new Font("serif", Font.BOLD, 20));
-        add(lblbranch);
-        
-        String branch[] = {"Computer Science", "Electronics", "Mechanical", "Civil", "IT"};
-        cbbranch = new JComboBox(branch);
-        cbbranch.setBounds(600, 400, 150, 30);
-        cbbranch.setBackground(Color.WHITE);
-        add(cbbranch);
-        
-        submit = new JButton("Submit");
-        submit.setBounds(250, 550, 120, 30);
-        submit.setBackground(Color.BLACK);
-        submit.setForeground(Color.WHITE);
-        submit.addActionListener(this);
-        submit.setFont(new Font("Tahoma", Font.BOLD, 15));
-        add(submit);
-        
-        cancel = new JButton("Cancel");
-        cancel.setBounds(450, 550, 120, 30);
-        cancel.setBackground(Color.BLACK);
-        cancel.setForeground(Color.WHITE);
-        cancel.addActionListener(this);
-        cancel.setFont(new Font("Tahoma", Font.BOLD, 15));
-        add(cancel);
-        
+        // --- 3. INPUT FIELDS SETUP ---
+        setupUI();
+
+        // --- 4. BUTTONS WITH MODERN STYLE ---
+        submit = createButton("SAVE DETAILS", 250, 650, new Color(46, 204, 113));
+        cancel = createButton("CLOSE", 480, 650, new Color(231, 76, 60));
+        mainPanel.add(submit);
+        mainPanel.add(cancel);
+
         setVisible(true);
+
+        // --- 5. ENTRANCE BOUNCE ANIMATION ---
+        startSpringAnimation();
     }
-    
+
+    private void setupUI() {
+        // Left Column
+        tfname = addStyledField("Teacher Name", 50, 130);
+        labelempId = addStaticLabel("Employee ID", "EMP-" + first4, 50, 210);
+        tfaddress = addStyledField("Residential Address", 50, 290);
+        tfemail = addStyledField("Official Email ID", 50, 370);
+        tfxii = addStyledField("Class XII (%)", 50, 450);
+        
+        createLabel("Qualification", 50, 530);
+        cbcourse = new JComboBox(new String[]{"B.Tech", "M.Tech", "Ph.D", "MBA", "MCA", "M.Sc"});
+        cbcourse.setBounds(50, 560, 350, 35);
+        mainPanel.add(cbcourse);
+
+        // Right Column
+        tffname = addStyledField("Father's Name", 480, 130);
+        
+        createLabel("Date of Birth", 480, 210);
+        dcdob = new JDateChooser();
+        dcdob.setBounds(480, 240, 350, 35);
+        mainPanel.add(dcdob);
+
+        tfphone = addStyledField("Mobile Number", 480, 290);
+        tfx = addStyledField("Class X (%)", 480, 370);
+        tfaadhar = addStyledField("Aadhar Number (12 Digits)", 480, 450);
+        
+        createLabel("Department", 480, 530);
+        cbbranch = new JComboBox(new String[]{"Computer Science", "IT", "Mechanical", "Civil", "Electronics"});
+        cbbranch.setBounds(480, 560, 350, 35);
+        mainPanel.add(cbbranch);
+    }
+
+    private JTextField addStyledField(String title, int x, int y) {
+        createLabel(title, x, y);
+        JTextField field = new JTextField();
+        field.setBounds(x, y + 30, 350, 35);
+        field.setFont(new Font("SansSerif", Font.PLAIN, 15));
+        field.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
+        
+        field.addFocusListener(new FocusAdapter() {
+            public void focusGained(FocusEvent e) {
+                field.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(41, 128, 185)));
+                field.setBackground(new Color(245, 249, 255));
+            }
+            public void focusLost(FocusEvent e) {
+                field.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
+                field.setBackground(Color.WHITE);
+            }
+        });
+        mainPanel.add(field);
+        return field;
+    }
+
+    private JLabel addStaticLabel(String title, String value, int x, int y) {
+        createLabel(title, x, y);
+        JLabel lbl = new JLabel(value);
+        lbl.setBounds(x, y + 30, 350, 35);
+        lbl.setFont(new Font("Monospaced", Font.BOLD, 20));
+        lbl.setForeground(new Color(41, 128, 185));
+        mainPanel.add(lbl);
+        return lbl;
+    }
+
+    private void createLabel(String text, int x, int y) {
+        JLabel l = new JLabel(text.toUpperCase());
+        l.setBounds(x, y, 300, 25);
+        l.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        l.setForeground(new Color(100, 100, 100));
+        mainPanel.add(l);
+    }
+
+    private JButton createButton(String text, int x, int y, Color c) {
+        JButton b = new JButton(text);
+        b.setBounds(x, y, 180, 45);
+        b.setBackground(c);
+        b.setForeground(Color.WHITE);
+        b.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b.setFocusPainted(false);
+        b.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        b.addActionListener(this);
+        return b;
+    }
+
+    private void startSpringAnimation() {
+        new Thread(() -> {
+            double y = 800, velocity = 0, targetY = 0;
+            while (Math.abs(targetY - y) > 0.5 || Math.abs(velocity) > 0.5) {
+                double force = (targetY - y) * 0.1;
+                velocity = (velocity + force) * 0.8;
+                y += velocity;
+                mainPanel.setBounds(0, (int)y, 900, 750);
+                try { Thread.sleep(15); } catch (Exception e) {}
+            }
+            mainPanel.setBounds(0, 0, 900, 750);
+        }).start();
+    }
+
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == submit) {
-            String name = tfname.getText();
-            String fname = tffname.getText();
-            String rollno = labelempId.getText();
-            String dob = ((JTextField) dcdob.getDateEditor().getUiComponent()).getText();
-            String address = tfaddress.getText();
-            String phone = tfphone.getText();
-            String email = tfemail.getText();
-            String x = tfx.getText();
-            String xii = tfxii.getText();
-            String aadhar = tfaadhar.getText();
-            String course = (String) cbcourse.getSelectedItem();
-            String branch = (String) cbbranch.getSelectedItem();
-            
-            try {
-                String query = "insert into teacher values('"+name+"', '"+fname+"', '"+rollno+"', '"+dob+"', '"+address+"', '"+phone+"', '"+email+"', '"+x+"', '"+xii+"', '"+aadhar+"', '"+course+"', '"+branch+"')";
-
-                conn con = new conn();
-                con.s.executeUpdate(query);
-                
-                JOptionPane.showMessageDialog(null, "Teacher Details Inserted Successfully");
-                setVisible(false);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (validateFields()) {
+                saveData();
             }
         } else {
-            setVisible(false);
+            dispose();
         }
     }
-    
+
+    private boolean validateFields() {
+        if (tfname.getText().isEmpty() || tfphone.getText().isEmpty() || tfaadhar.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "🚨 ERROR: All fields are mandatory!", "Security Check", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (tfphone.getText().length() != 10) {
+            JOptionPane.showMessageDialog(this, "Enter a valid 10-digit Phone Number", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private void saveData() {
+        try {
+            conn con = new conn();
+            String query = "insert into teacher values(?,?,?,?,?,?,?,?,?,?,?,?)";
+            java.sql.PreparedStatement pstmt = con.c.prepareStatement(query);
+            pstmt.setString(1, tfname.getText());
+            pstmt.setString(2, tffname.getText());
+            pstmt.setString(3, labelempId.getText());
+            pstmt.setString(4, ((JTextField) dcdob.getDateEditor().getUiComponent()).getText());
+            pstmt.setString(5, tfaddress.getText());
+            pstmt.setString(6, tfphone.getText());
+            pstmt.setString(7, tfemail.getText());
+            pstmt.setString(8, tfx.getText());
+            pstmt.setString(9, tfxii.getText());
+            pstmt.setString(10, tfaadhar.getText());
+            pstmt.setString(11, (String)cbcourse.getSelectedItem());
+            pstmt.setString(12, (String)cbbranch.getSelectedItem());
+            
+            pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "🚀 Faculty Data Secured & Uploaded Successfully!");
+            dispose();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
     public static void main(String[] args) {
         new AddTeacher();
     }
